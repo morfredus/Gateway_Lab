@@ -51,6 +51,15 @@ public:
     String state    = "ok";        // ok | warning | starting | error
     String instance;               // defaut : appName@hostname
 
+    // Role de l'emetteur dans le parc (contrat morfbeacon/1). Ici le defaut est
+    // "device" -- et non "host" comme dans la bibliotheque Qt -- parce qu'un
+    // emetteur Arduino EST par nature un equipement autonome (ESP32, capteur),
+    // jamais une machine generaliste hebergeant des services. Un consommateur
+    // (morfMonitor) s'en sert pour ne pas confondre l'absence d'un capteur avec
+    // l'extinction d'un poste ; un tableau de bord local (morfDashboard) le garde
+    // visible comme equipement du parc meme s'il porte un autre nom d'hote.
+    String role     = "device";    // host | device
+
     // --- Capacites (STABLES, jamais renommees) ------------------------------
     // Un consommateur cherche une CAPACITE, jamais un nom : morfSystem etant
     // sous licence GPL, chacun peut renommer son application, et une detection
@@ -122,6 +131,7 @@ private:
         o += "\"proto\":\"morfbeacon/1\"";
         o += ",\"app\":\""     + escape(appName) + "\"";
         o += ",\"host\":\""    + escape(host) + "\"";
+        o += ",\"role\":\""    + escape(role.length() ? role : String("device")) + "\"";
         o += ",\"version\":\"" + escape(version) + "\"";
         o += ",\"state\":\""   + escape(state) + "\"";
         o += ",\"status_port\":" + String(statusPort);
@@ -189,6 +199,7 @@ inline String buildStatusJson(const Emitter& e,
     String o = "{";
     o += "\"app\":\""     + e.appName + "\"";
     o += ",\"host\":\""   + host + "\"";
+    o += ",\"role\":\""   + (e.role.length() ? e.role : String("device")) + "\"";
     o += ",\"version\":\"" + e.version + "\"";
     o += ",\"state\":\""  + e.state + "\"";
     o += ",\"uptime_s\":" + String(millis() / 1000UL);
