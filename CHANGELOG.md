@@ -7,6 +7,13 @@ Format : [Semantic Versioning](https://semver.org/)
 
 ## [Non publié]
 
+## [1.9.4] - 2026-08-20
+
+### Corrigé
+
+- La version est montée après les évolutions de packaging afin que le tag source
+  identifie exactement le commit produisant le firmware publié.
+
 ## [1.9.3] - 2026-07-28
 
 ### Modifié
